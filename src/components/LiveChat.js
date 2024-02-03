@@ -1,40 +1,68 @@
-import React, { useEffect } from "react";
-import ChatMessage from "./ChatMessage";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addMessage } from "../utilies/chatSlice";
+import { generateRandomNames, makeRandomMessage } from "../utilies/helper";
+import ChatMessage from "./ChatMessage";
 
 const LiveChat = () => {
-
+  const [liveMessage, setLiveMessage] = useState("");
   const dispatch = useDispatch();
 
-  const chatMessages = useSelector((store) => store.chat.messages)
+  const chatMessages = useSelector((store) => store.chat.messages);
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    const i = setInterval(() => {
+      // API Polling
 
-        // API Polling
+      dispatch(
+        addMessage({
+          name: generateRandomNames(),
+          message: makeRandomMessage(20) + " 🚀",
+        })
+      );
+    }, 2000);
 
-        dispatch(addMessage({
-            name: "Vasanth Ravi",
-            message: "Lorem lopsum fri"
-        }))
-
-    }, 2000) // Every 2 secs
-
-    return () => clearInterval(interval);
-  },[])
+    return () => clearInterval(i);
+  }, []);
 
   return (
-    <div className="w-full h-[600px] ml-2 p-2 border border-black bg-slate-200 rounded-lg overflow-y-scroll">
-        {
-            chatMessages.map((chat,index) => {
-                return (
-                    <ChatMessage key={index} name={chat.name} message={chat.message}/>
-                )
-            })
-        }
-    </div>
-  ); 
-};
+    <>
+      <div className="w-full h-[600px] ml-2 p-2 border border-black bg-slate-100 rounded-lg overflow-y-scroll flex flex-col-reverse">
+        <div>
+          {
+            // Disclaimer: Don't use indexes as keys
+            chatMessages.map((c, i) => (
+              <ChatMessage key={i} name={c.name} message={c.message} />
+            ))
+          }
+        </div>
+      </div>
 
+      <form
+        className="w-full p-2 ml-2 border border-black"
+        onSubmit={(e) => {
+          e.preventDefault();
+
+          dispatch(
+            addMessage({
+              name: "Vasanth Ravi",
+              message: liveMessage,
+            })
+          );
+          setLiveMessage("");
+        }}
+      >
+        <input
+          className="px-2 w-96"
+          type="text"
+          value={liveMessage}
+          onChange={(e) => {
+            setLiveMessage(e.target.value);
+          }}
+        />
+        <button className="px-2 mx-2 bg-green-100">Send</button>
+      </form>
+    </>
+  );
+};
 export default LiveChat;
