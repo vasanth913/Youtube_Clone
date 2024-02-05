@@ -16,12 +16,12 @@ const WatchPage = () => {
   //  ?&autoplay=1
 
   return (
-      <div className="flex flex-col w-full">
-        <div className="px-5 flex w-full">
+      <div className="flex flex-col">
+        <div className="flex">
           <div className="">
             <iframe
               className="aspect-video"
-              width="950"
+              width="900"
               height="600"
               src={`https://www.youtube.com/embed/${searchParams.get("v")}`}
               title="YouTube video player"
