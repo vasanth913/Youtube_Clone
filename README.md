@@ -76,3 +76,15 @@
       --> Eg: Gmail (After every 10 sec we can check whether new email has came or not), Cricbuzz, Youtube
   --> Youtube uses API Polling, it will delete the message in the chat (after 200 or 300 messages) to make the UI optimized and make sure UI is not get freezed
   --> If it's tablet or mobile, it will keep less messages and also delete old messages so that UI won't get freezed when it is flodded with messages
+
+# React Hooks
+  # useMemo:
+     --> It will increase the performance of the Application
+     --> Cache the result of a calculation b/w re-renders[Eg: Toggle and calculating nth Prime]
+  # useCallback
+     --> useCallback is a React Hook that lets you cache a function  definition between re-renders
+  # useRef
+     --> When you want to store a value to a variable and we don't want to render the component
+     --> useref stores the value as an object
+     --> useRef will presist the value but let won't presist the value when rerendering the component using state
+  
